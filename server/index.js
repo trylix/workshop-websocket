@@ -8,6 +8,7 @@ const factory = require("./src/infrastructure/config/factory");
 const routes = require("./src/infrastructure/config/routes");
 
 const webserver = require("./src/infrastructure/webserver");
+const websocket = require("./src/infrastructure/websocket");
 
 const start = async () => {
   try {
@@ -16,6 +17,8 @@ const start = async () => {
     const deps = factory();
     const app = webserver(deps);
     const server = http.createServer(app);
+
+    websocket(server, deps);
 
     routes(app);
 
