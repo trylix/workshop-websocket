@@ -3,6 +3,7 @@
 const http = require("http");
 
 const bootstrap = require("./src/infrastructure/config/bootstrap");
+const factory = require("./src/infrastructure/config/factory")();
 
 const app = require("./src/infrastructure/webserver");
 
