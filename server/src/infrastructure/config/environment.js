@@ -14,6 +14,9 @@ module.exports = (() => {
         process.env.DATABASE_DIALECT || constants.SUPPORTED_DATABASE.MONGO,
       url: process.env.DATABASE_URI || "",
     },
+    security: {
+      secretKey: process.env.SECURITY_SECRET_KEY || "",
+    },
   };
 
   return environment;
