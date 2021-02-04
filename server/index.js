@@ -2,10 +2,14 @@
 
 const http = require("http");
 
+const bootstrap = require("./src/infrastructure/config/bootstrap");
+
 const app = require("./src/infrastructure/webserver");
 
 const start = async () => {
   try {
+    await bootstrap.initialize();
+
     const server = http.createServer(app);
 
     server.listen(process.env.PORT || 3000, () => {
