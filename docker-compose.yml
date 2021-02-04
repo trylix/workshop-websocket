@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  database:
+    container_name: workshop_db
+    image: mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_DATABASE: workshop
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./docker/volumes/mongodb:/data/db
+
+  redis:
+    container_name: workshop_redis
+    image: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./docker/volumes/redis:/data

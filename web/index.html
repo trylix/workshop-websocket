@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Introdução a WebSockets</title>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.0/socket.io.min.js"
+    ></script>
+    <script type="text/javascript" src="./src/utils/event.js"></script>
+    <script type="text/javascript" src="./src/utils/socket.js"></script>
+    <script type="text/javascript" src="./src/business.js"></script>
+    <script type="text/javascript" src="./src/app.js"></script>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="workshop-container">
+      <div class="workshop-contact">
+        <form class="contact-search">
+          <input type="text" name="key" />
+          <input type="submit" value="Pesquisar" />
+        </form>
+        <div id="room-list" class="contact-content"></div>
+      </div>
+      <div class="workshop-chat">
+        <div class="chat-view">
+          <div id="chat" class="messages"></div>
+        </div>
+        <form id="chat-form" class="chat-form">
+          <input type="text" name="message" autofocus />
+          <input type="submit" value="Enviar" />
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
