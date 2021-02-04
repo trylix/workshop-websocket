@@ -18,6 +18,13 @@ module.exports = {
       repository: deps.messageRepository,
       dto,
     });
+
+    deps.eventPropagator.emitToRoom({
+      roomId: message.room,
+      event: "new_message",
+      data: message,
+    });
+
     return httpResponse.created(message);
   },
 

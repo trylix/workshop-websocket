@@ -1,34 +1,58 @@
+const responseSerializer = require("../../serializers/response-serializer");
+
 module.exports = class {
-  constructor({ socket }) {
+  constructor(socket) {
     this.id = socket.id;
     this.userId = socket.auth.userId;
-    this.deps = socket.auth.deps;
+    this.eventPropagator = socket.auth.deps.eventPropagator;
   }
 
-  emitToRoom(roomId, event, data) {
-    this.deps.eventPropagator.emitToRoom({
+  propagateEvent(event, data) {
+    this.eventPropagator.propagateEvent({
       event,
-      data,
-      roomId,
-      socketId: this.id,
+      data: responseSerializer(data),
+      socketId: this.socketId,
+      userId: this.userId,
+    });
+  }
+
+  emitToRoom(event, data) {
+    this.eventPropagator.emitToRoom({
+      event,
+      data: responseSerializer(data),
+      socketId: this.socketId,
+      userId: this.userId,
     });
   }
 
   emitToUser(event, data) {
-    this.deps.eventPropagator.emitToRoom({
+    this.eventPropagator.emitToUser({
       event,
-      data,
+      data: responseSerializer(data),
+      socketId: this.socketId,
       userId: this.userId,
-      socketId: this.id,
     });
   }
 
-  send(event, data) {
-    this.deps.eventPropagator.emitToRoom({
+  emitToAuthenticated(event, data) {
+    this.eventPropagator.emitToAuthenticated({
       event,
-      data,
+      data: responseSerializer(data),
+      socketId: this.socketId,
       userId: this.userId,
-      socketId: this.id,
     });
+  }
+
+  emitToAll(event, data) {
+    this.eventPropagator.emitToAll({
+      event,
+      data: responseSerializer(data),
+      socketId: this.socketId,
+      userId: this.userId,
+    });
+  }
+
+  error(error) {
+    this.emitToUser("error", error.stack);
   }
 };

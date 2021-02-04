@@ -29,13 +29,13 @@ module.exports = {
       dto,
     });
 
-    room.participants.forEach((participantId) => {
+    room.participants.forEach((participant) =>
       deps.eventPropagator.emitToUser({
-        userId: participantId,
+        userId: participant._id,
         event: "new_room",
         data: room,
-      });
-    });
+      })
+    );
 
     return httpResponse.created(room);
   },
@@ -46,6 +46,15 @@ module.exports = {
       repository: deps.roomRepository,
       dto,
     });
+
+    room.participants.forEach((participantId) => {
+      deps.eventPropagator.emitToUser({
+        userId: participantId,
+        event: "update_room",
+        data: room,
+      });
+    });
+
     return httpResponse.noContent();
   },
 
@@ -54,6 +63,15 @@ module.exports = {
       id: params.roomId,
       repository: deps.roomRepository,
     });
+
+    room.participants.forEach((participantId) =>
+      deps.eventPropagator.emitToUser({
+        userId: participantId,
+        event: "delete_room",
+        data: room._id,
+      })
+    );
+
     return httpResponse.noContent();
   },
 };

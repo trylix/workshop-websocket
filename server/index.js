@@ -23,8 +23,6 @@ const start = async () => {
     const server = http.createServer(app);
     const io = websocket(server, deps);
 
-    deps.eventPropagator.setSocketServer(io);
-
     websocketGateway(io, events);
     routes(app);
 
