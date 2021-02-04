@@ -28,6 +28,15 @@ module.exports = {
       repository: deps.roomRepository,
       dto,
     });
+
+    room.participants.forEach((participantId) => {
+      deps.eventPropagator.emitToUser({
+        userId: participantId,
+        event: "new_room",
+        data: room,
+      });
+    });
+
     return httpResponse.created(room);
   },
 

@@ -10,7 +10,20 @@
     ></script>
     <script>
       window.onload = function () {
-        const socket = io("ws://localhost:3000");
+        const socket = io("ws://localhost:3000", {
+          query: {
+            token:
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwMWJmNzU1ZTBhZDJmZjA3Nzc3YTEwZSIsImlhdCI6MTYxMjQ0NTU0MH0.yOEuS-Qg-zdN01zMBMdztFGOo9pJLxL5hw6ww9jjRoA",
+          },
+        });
+
+        socket.on("dm", (message) => console.log(message));
+        socket.on("authenticated", (userId) => console.log(userId));
+        socket.on("connect", function () {
+          socket.emit("get_rooms");
+          socket.on("get_rooms", (rooms) => console.log(rooms));
+        });
+        socket.on("connect_error", (error) => console.log(error));
       };
     </script>
   </head>

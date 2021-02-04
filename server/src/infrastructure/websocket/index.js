@@ -10,6 +10,8 @@ module.exports = (http, deps) => {
     pingTimeout: 4 * 60 * 1000,
   });
 
+  deps.eventPropagator.setSocketServer(server);
+
   server.use(async (socket, next) => {
     try {
       const { id: userId } = deps.accessTokenManager.decode(

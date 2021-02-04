@@ -18,12 +18,14 @@ const start = async () => {
     await bootstrap.initialize();
 
     const deps = factory();
+
     const app = webserver(deps);
     const server = http.createServer(app);
-
     const io = websocket(server, deps);
-    websocketGateway(io, events);
 
+    deps.eventPropagator.setSocketServer(io);
+
+    websocketGateway(io, events);
     routes(app);
 
     server.listen(environment.server.port, () => {
