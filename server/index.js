@@ -6,6 +6,7 @@ const bootstrap = require("./src/infrastructure/config/bootstrap");
 const environment = require("./src/infrastructure/config/environment");
 const factory = require("./src/infrastructure/config/factory");
 const routes = require("./src/infrastructure/config/routes");
+const events = require("./src/infrastructure/config/events");
 
 const websocketGateway = require("./src/infrastructure/gateways/websocket");
 
@@ -21,7 +22,7 @@ const start = async () => {
     const server = http.createServer(app);
 
     const io = websocket(server, deps);
-    websocketGateway(io, (socket) => {});
+    websocketGateway(io, events);
 
     routes(app);
 
