@@ -7,6 +7,8 @@ const environment = require("./src/infrastructure/config/environment");
 const factory = require("./src/infrastructure/config/factory");
 const routes = require("./src/infrastructure/config/routes");
 
+const websocketGateway = require("./src/infrastructure/gateways/websocket");
+
 const webserver = require("./src/infrastructure/webserver");
 const websocket = require("./src/infrastructure/websocket");
 
@@ -18,7 +20,8 @@ const start = async () => {
     const app = webserver(deps);
     const server = http.createServer(app);
 
-    websocket(server, deps);
+    const io = websocket(server, deps);
+    websocketGateway(io, (socket) => {});
 
     routes(app);
 

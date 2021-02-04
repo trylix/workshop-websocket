@@ -1,5 +1,4 @@
 const io = require("socket.io");
-const jwt = require("jsonwebtoken");
 
 module.exports = (http, deps) => {
   const server = io(http, {
@@ -27,4 +26,6 @@ module.exports = (http, deps) => {
       next(err);
     }
   });
+
+  return server;
 };
