@@ -3,11 +3,15 @@ const morgan = require("morgan");
 const cors = require("cors");
 const helmet = require("helmet");
 
-const app = express();
+module.exports = (deps) => {
+  const app = express();
 
-app.use(morgan("combined"));
-app.use(helmet());
-app.use(cors());
-app.use(express.json());
+  app.deps = deps;
 
-module.exports = app;
+  app.use(morgan("combined"));
+  app.use(helmet());
+  app.use(cors());
+  app.use(express.json());
+
+  return app;
+};
